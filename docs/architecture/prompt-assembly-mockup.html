@@ -1,0 +1,187 @@
+<style>
+*{box-sizing:border-box;margin:0}
+.pa{font-family:var(--font-sans);padding:1rem 0}
+.pa-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.pa-title{font-size:13px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:8px}
+.pa-badge{font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);background:var(--color-background-info);color:var(--color-text-info)}
+.pa-toggle{font-size:12px;color:var(--color-text-secondary);cursor:pointer;background:none;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:4px 12px}
+.pa-toggle:hover{background:var(--color-background-secondary)}
+.pa-layers{display:flex;flex-direction:column;gap:1px;border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid var(--color-border-tertiary)}
+.pa-layer{padding:10px 14px;cursor:pointer;transition:background 0.15s}
+.pa-layer:hover{filter:brightness(1.02)}
+.pa-layer-head{display:flex;justify-content:space-between;align-items:center}
+.pa-layer-label{font-size:12px;font-weight:500;display:flex;align-items:center;gap:6px}
+.pa-layer-count{font-size:11px;padding:1px 6px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.pa-layer-tokens{font-size:11px;color:var(--color-text-tertiary);font-family:var(--font-mono)}
+.pa-detail{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-top:8px;padding:8px 10px;border-radius:var(--border-radius-md);font-family:var(--font-mono);white-space:pre-wrap;display:none}
+.pa-detail.open{display:block}
+.pa-bar{height:6px;border-radius:3px;margin-top:12px;display:flex;overflow:hidden;border:0.5px solid var(--color-border-tertiary)}
+.pa-bar-seg{height:100%;transition:width 0.3s}
+.pa-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.pa-total{font-size:12px;color:var(--color-text-secondary)}
+.pa-total b{font-weight:500;color:var(--color-text-primary)}
+.pa-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+.pa-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.pa-legend span{font-size:11px;color:var(--color-text-secondary);display:flex;align-items:center;gap:4px}
+</style>
+<div class="pa">
+<div class="pa-head">
+  <div class="pa-title">Prompt assembly preview <span class="pa-badge">Live</span></div>
+  <button class="pa-toggle" onclick="toggleAll()">Expand all layers</button>
+</div>
+
+<div class="pa-layers">
+  <div class="pa-layer" style="background:#E1F5EE22" onclick="toggle(0)">
+    <div class="pa-layer-head">
+      <div class="pa-layer-label"><span class="pa-dot" style="background:#1D9E75"></span>Screenplay text</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="pa-layer-count">2 dialogue + 1 action</span>
+        <span class="pa-layer-tokens">680 tok</span>
+      </div>
+    </div>
+    <div class="pa-detail" id="d0" style="background:#E1F5EE33">ACTION: Steam curls through amber platform lights. A sea of commuters moves in hypnotic rhythm. MEERA pushes through the crowd clutching a leather messenger bag.
+
+DIALOGUE (MEERA): "Is this really the place?" [scanning the crowd, voice barely audible]
+DIALOGUE (ARJUN): "Stay close. Don't look at anyone." [without turning back]
+
+TRANSITION: SMASH CUT TO:
+BEAT: Setup | DURATION: 28s</div>
+  </div>
+
+  <div class="pa-layer" style="background:#EEEDFE22" onclick="toggle(1)">
+    <div class="pa-layer-head">
+      <div class="pa-layer-label"><span class="pa-dot" style="background:#534AB7"></span>Character identity constraints</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="pa-layer-count">2 characters</span>
+        <span class="pa-layer-tokens">520 tok</span>
+      </div>
+    </div>
+    <div class="pa-detail" id="d1" style="background:#EEEDFE33">CHARACTER: Meera [LoRA:active]
+  Physical: Black shoulder-length wavy hair, warm brown skin, lean athletic build, 5'6", scar above left eyebrow, silver ring right hand
+  Emotion: Anxiety (intensity: 4/10)
+  Wardrobe: Charcoal trench coat, dark jeans, white sneakers [DEFAULT — no override]
+  Blocking: Enters frame left, clutching bag, scanning the crowd
+  Mannerisms: Avoids eye contact, speaks softly, touches face frequently
+
+CHARACTER: Detective Arjun [LoRA:active]
+  Physical: Grey-streaked slicked hair, medium brown skin, stocky solid, 5'10", cigarette burn left wrist, heavy stubble, slight limp
+  Emotion: Determination (intensity: 7/10)
+  Wardrobe: Brown leather jacket, wrinkled shirt, dark trousers [DEFAULT — no override]
+  Blocking: Walking 2 steps ahead, hand near hip</div>
+  </div>
+
+  <div class="pa-layer" style="background:#E6F1FB22" onclick="toggle(2)">
+    <div class="pa-layer-head">
+      <div class="pa-layer-label"><span class="pa-dot" style="background:#185FA5"></span>Camera configuration</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="pa-layer-count">4 parameters</span>
+        <span class="pa-layer-tokens">280 tok</span>
+      </div>
+    </div>
+    <div class="pa-detail" id="d2" style="background:#E6F1FB33">SHOT: Wide Shot — full environment visible, all characters in frame
+MOVEMENT: Steadicam — Walk & Talk — camera follows subjects at walking pace, smooth tracking
+LIGHTING: Neon Noir — cyan/magenta practicals, deep shadows, wet reflections
+ATMOSPHERE: Tense — high contrast, tight depth of field, environmental unease
+
+DERIVED: Opening frame matches Storyboard Panel 1 (Wide Establishing — approved)
+FOCAL: 35mm Standard [from Production Bible]
+BODY: ARRI Alexa 35 [from Production Bible]</div>
+  </div>
+
+  <div class="pa-layer" style="background:#FAEEDA22" onclick="toggle(3)">
+    <div class="pa-layer-head">
+      <div class="pa-layer-label"><span class="pa-dot" style="background:#854F0B"></span>Continuity state</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="pa-layer-count">47 constraints</span>
+        <span class="pa-layer-tokens">390 tok</span>
+      </div>
+    </div>
+    <div class="pa-detail" id="d3" style="background:#FAEEDA33">SCENE POSITION: Scene 1 of 3 (opening scene — no prior state to carry)
+CONTINUITY FLAGS: 0 active
+
+CARRY-FORWARD CONSTRAINTS:
+  → Meera: Silver ring must be visible on right hand in all frames
+  → Meera: Scar above left eyebrow — visible in close-up angles
+  → Arjun: Limp (right leg) — visible in walking shots
+  → Arjun: Cigarette burn left wrist — visible if sleeves ride up
+
+POST-GENERATION VALIDATION WILL CHECK:
+  → Character physical consistency against LoRA reference
+  → Wardrobe matches (no phantom accessories, correct colors)
+  → Emotion expression matches specified intensity
+  → Blocking positions match stage directions</div>
+  </div>
+
+  <div class="pa-layer" style="background:#FAECE722" onclick="toggle(4)">
+    <div class="pa-layer-head">
+      <div class="pa-layer-label"><span class="pa-dot" style="background:#993C1D"></span>Production bible baseline</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="pa-layer-count">8 parameters</span>
+        <span class="pa-layer-tokens">180 tok</span>
+      </div>
+    </div>
+    <div class="pa-detail" id="d4" style="background:#FAECE733">GENRE: Noir — high contrast, moral ambiguity, urban setting emphasis
+ERA: Contemporary — modern clothing, technology, architecture
+COLOR GRADE: Bleach Bypass — desaturated, high contrast, muted warm tones
+ASPECT: 2.39:1 Anamorphic — horizontal letterbox framing
+FILM STOCK: Kodak Vision3 500T — tungsten balanced, fine grain, rich shadows
+LENS: Spherical Prime — clean, minimal distortion
+CAMERA: ARRI Alexa 35 — S35 sensor, cinema color science</div>
+  </div>
+
+  <div class="pa-layer" style="background:#FCEBEB22" onclick="toggle(5)">
+    <div class="pa-layer-head">
+      <div class="pa-layer-label"><span class="pa-dot" style="background:#A32D2D"></span>Validation criteria</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="pa-layer-count">Post-gen checks</span>
+        <span class="pa-layer-tokens">197 tok</span>
+      </div>
+    </div>
+    <div class="pa-detail" id="d5" style="background:#FCEBEB33">POST-GENERATION VALIDATION PASS:
+  1. Embedding similarity: generated frames vs LoRA reference (threshold: 0.85)
+  2. Wardrobe consistency: color histogram match against description
+  3. Aspect ratio compliance: 2.39:1 output verified
+  4. Color grade adherence: Bleach Bypass curve applied
+  5. Character count: exactly 2 characters visible in wide shots
+  6. Blocking accuracy: character positions match stage directions
+  7. Continuity: no items appear/disappear between frames
+  8. Duration: output length matches 28s target ±2s</div>
+  </div>
+</div>
+
+<div class="pa-bar">
+  <div class="pa-bar-seg" style="width:30%;background:#1D9E75"></div>
+  <div class="pa-bar-seg" style="width:23%;background:#534AB7"></div>
+  <div class="pa-bar-seg" style="width:12.5%;background:#185FA5"></div>
+  <div class="pa-bar-seg" style="width:17%;background:#854F0B"></div>
+  <div class="pa-bar-seg" style="width:8%;background:#993C1D"></div>
+  <div class="pa-bar-seg" style="width:9.5%;background:#A32D2D"></div>
+</div>
+
+<div class="pa-footer">
+  <span class="pa-total">Total assembled: <b>2,247 tokens</b> across 6 constraint layers</span>
+</div>
+
+<div class="pa-legend">
+  <span><span class="pa-dot" style="background:#1D9E75"></span>Screenplay</span>
+  <span><span class="pa-dot" style="background:#534AB7"></span>Characters</span>
+  <span><span class="pa-dot" style="background:#185FA5"></span>Camera</span>
+  <span><span class="pa-dot" style="background:#854F0B"></span>Continuity</span>
+  <span><span class="pa-dot" style="background:#993C1D"></span>Bible</span>
+  <span><span class="pa-dot" style="background:#A32D2D"></span>Validation</span>
+</div>
+</div>
+
+<script>
+function toggle(i){
+  document.getElementById('d'+i).classList.toggle('open');
+}
+function toggleAll(){
+  const all = document.querySelectorAll('.pa-detail');
+  const anyOpen = Array.from(all).some(d => d.classList.contains('open'));
+  all.forEach(d => {
+    if(anyOpen) d.classList.remove('open');
+    else d.classList.add('open');
+  });
+}
+</script>
