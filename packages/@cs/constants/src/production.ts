@@ -1,0 +1,199 @@
+/**
+ * Production Constants
+ * Extracted from monolith App.jsx Region 2c
+ */
+
+export const SHOT_TYPES = [
+  'Close-up',
+  'Extreme Close-up',
+  'Medium Shot',
+  'Medium Close-up',
+  'Wide Shot',
+  'Extreme Wide',
+  'Three Quarter Body',
+  'Full Body',
+  'Over the Shoulder',
+  'Dutch Angle',
+  "Bird's Eye",
+  "Worm's Eye",
+  'Point of View',
+  'Two Shot',
+  'Tracking Shot',
+  'Dolly Zoom',
+] as const;
+
+export const CAMERA_MOVEMENTS = [
+  { name: 'Drone — Low Altitude Fly-over', cat: 'Aerial' },
+  { name: 'Drone — Top-Down Reveal', cat: 'Aerial' },
+  { name: 'Steadicam — Walk & Talk', cat: 'Stabilized' },
+  { name: 'Dolly — Push In', cat: 'Track' },
+  { name: 'Dolly — Pull Out', cat: 'Track' },
+  { name: 'Crane — Jib Up Reveal', cat: 'Crane/Rig' },
+  { name: 'Handheld — Vérité / Raw', cat: 'Handheld' },
+  { name: 'Static / Locked Tripod', cat: 'Static' },
+  { name: 'Gimbal — Run & Gun', cat: 'Stabilized' },
+  { name: 'Cable Cam / Spidercam', cat: 'Rigged' },
+] as const;
+
+export const LIGHTING_SOURCES = [
+  'Teal and Orange',
+  'Natural Sunlight',
+  'Golden Hour',
+  'Blue Hour',
+  'Neon Noir',
+  'Chiaroscuro',
+  'High Key',
+  'Low Key',
+  'Rembrandt',
+  'Split Lighting',
+  'Silhouette',
+  'Practical Lights',
+  'Candlelight',
+  'Moonlight',
+  'Fluorescent',
+  'Volumetric / Haze',
+] as const;
+
+export const ATMOSPHERES = [
+  'Moody',
+  'Cinematic',
+  'Lonely',
+  'Melancholic',
+  'Euphoric',
+  'Tense',
+  'Dreamlike',
+  'Gritty',
+  'Nostalgic',
+  'Surreal',
+  'Romantic',
+  'Dystopian',
+  'Serene',
+  'Chaotic',
+  'Intimate',
+  'Epic',
+  'Claustrophobic',
+  'Ethereal',
+  'Raw',
+  'Mythic',
+] as const;
+
+export const CAMERA_BODIES = [
+  { name: 'ARRI Alexa 35', tier: 'Cinema Flagship', sensor: 'S35 ALEV 4', res: '4.6K' },
+  { name: 'RED V-RAPTOR XL 8K', tier: 'Cinema Flagship', sensor: 'VV', res: '8K' },
+  { name: 'Sony Venice 2', tier: 'Cinema Flagship', sensor: 'FF Dual ISO', res: '8.6K' },
+  {
+    name: 'Canon EOS C500 Mk II',
+    tier: 'Professional',
+    sensor: 'Full Frame',
+    res: '5.9K',
+  },
+  {
+    name: 'Blackmagic URSA Cine 12K',
+    tier: 'Cinema Flagship',
+    sensor: 'Full Frame',
+    res: '12K',
+  },
+  {
+    name: 'IMAX MSM 9802',
+    tier: 'Large Format Film',
+    sensor: '65mm/15-perf',
+    res: '18K equiv',
+  },
+  { name: 'Phantom Flex4K', tier: 'High Speed', sensor: 'Super 35', res: '4K' },
+] as const;
+
+export const FOCAL_LENGTHS = [
+  '12mm Ultra Wide',
+  '18mm Wide',
+  '24mm Wide',
+  '35mm Standard',
+  '50mm Normal',
+  '85mm Portrait',
+  '135mm Telephoto',
+  'Zoom 24-70mm',
+  'Anamorphic 50mm',
+] as const;
+
+export const LENS_TYPES = [
+  'Spherical Prime',
+  'Anamorphic Cinema',
+  'Zoom Lens',
+  'Vintage Rehoused',
+  'Cooke S7/i',
+  'Zeiss Supreme Prime',
+  'ARRI Signature Prime',
+  'Panavision Primo',
+] as const;
+
+export const FILM_STOCKS = [
+  'Kodak Vision3 500T',
+  'Kodak Vision3 250D',
+  'CineStill 800T',
+  'Digital Clean',
+  '16mm Grainy',
+  'Super 8 Vintage',
+  '70mm Film',
+  'IMAX Large Format',
+] as const;
+
+export const ASPECT_RATIOS = [
+  '2.39:1 Anamorphic',
+  '2.00:1 Univisium',
+  '1.85:1 Widescreen',
+  '1.78:1 (16:9)',
+  '1.43:1 IMAX',
+  '1.33:1 (4:3)',
+  '9:16 Vertical',
+] as const;
+
+export const GENRES = [
+  'Noir',
+  'Drama',
+  'Thriller',
+  'Sci-Fi',
+  'Romance',
+  'Horror',
+  'Comedy',
+  'Action',
+  'Documentary',
+  'Fantasy',
+  'Western',
+  'Musical',
+] as const;
+
+export const ERAS = [
+  'Contemporary',
+  '1990s',
+  '1980s',
+  '1970s',
+  '1960s',
+  '1940s Noir',
+  'Victorian',
+  'Medieval',
+  'Futuristic',
+  'Timeless',
+] as const;
+
+export const COLOR_GRADES = [
+  'Bleach Bypass',
+  'Teal & Orange',
+  'Desaturated',
+  'Warm Vintage',
+  'Cold Steel',
+  'Neon Saturated',
+  'Pastel Dream',
+  'High Contrast B&W',
+  'Sepia',
+  'Natural',
+] as const;
+
+export type ShotType = typeof SHOT_TYPES[number];
+export type LightingSource = typeof LIGHTING_SOURCES[number];
+export type Atmosphere = typeof ATMOSPHERES[number];
+export type FocalLength = typeof FOCAL_LENGTHS[number];
+export type LensType = typeof LENS_TYPES[number];
+export type FilmStock = typeof FILM_STOCKS[number];
+export type AspectRatio = typeof ASPECT_RATIOS[number];
+export type Genre = typeof GENRES[number];
+export type Era = typeof ERAS[number];
+export type ColorGrade = typeof COLOR_GRADES[number];

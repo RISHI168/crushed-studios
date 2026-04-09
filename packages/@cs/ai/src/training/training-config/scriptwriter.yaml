@@ -1,0 +1,32 @@
+name: scriptwriter
+agent_id: scriptwriter
+base_model: claude-3-sonnet
+
+training:
+  type: lora
+  rank: 32
+  alpha: 64
+  learning_rate: 2.0e-4
+  epochs: 3
+  batch_size: 4
+  max_tokens: 4096
+
+data:
+  dataset_id: scriptwriter_preferences
+  min_pair_count: 100
+  quality_threshold: 0.7
+  sampling_strategy: balanced
+
+evaluation:
+  metrics:
+    - accuracy
+    - f1_score
+    - perplexity
+  benchmark_dataset: scriptwriter_eval
+  threshold_for_promotion: 0.85
+
+schedule:
+  trigger: data_threshold
+  min_pairs_for_training: 150
+  max_training_frequency: weekly
+  auto_promote: true

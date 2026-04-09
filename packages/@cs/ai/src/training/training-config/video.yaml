@@ -1,0 +1,35 @@
+name: video
+agent_id: generation
+base_model: video-generation-model
+
+training:
+  type: lora
+  rank: 64
+  alpha: 128
+  learning_rate: 1.0e-4
+  epochs: 5
+  batch_size: 1
+  resolution: 1280x720
+  fps: 24
+
+data:
+  dataset_id: video_preferences
+  min_pair_count: 200
+  quality_threshold: 0.80
+  sampling_strategy: stratified
+
+evaluation:
+  metrics:
+    - vqa_accuracy
+    - temporal_consistency
+    - aesthetic_score
+    - user_preference
+  benchmark_dataset: video_eval
+  threshold_for_promotion: 0.82
+
+schedule:
+  trigger: data_threshold
+  min_pairs_for_training: 250
+  max_training_frequency: biweekly
+  auto_promote: true
+  gpu_required: true

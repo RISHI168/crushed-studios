@@ -1,0 +1,32 @@
+name: storyboard
+agent_id: storyboard
+base_model: stable-diffusion-3
+
+training:
+  type: lora
+  rank: 16
+  alpha: 32
+  learning_rate: 1.0e-4
+  epochs: 10
+  batch_size: 2
+  resolution: 768
+
+data:
+  dataset_id: storyboard_preferences
+  min_pair_count: 50
+  quality_threshold: 0.75
+  sampling_strategy: diverse
+
+evaluation:
+  metrics:
+    - clip_score
+    - user_preference_accuracy
+    - visual_consistency
+  benchmark_dataset: storyboard_eval
+  threshold_for_promotion: 0.80
+
+schedule:
+  trigger: data_threshold
+  min_pairs_for_training: 100
+  max_training_frequency: weekly
+  auto_promote: true

@@ -1,0 +1,48 @@
+# Multi-stage Fastify API build
+# Stage 1: Dependencies
+FROM node:20-alpine AS deps
+
+WORKDIR /app
+
+RUN npm install -g pnpm
+
+COPY pnpm-lock.yaml ./
+RUN pnpm fetch
+
+# Stage 2: Builder
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+RUN npm install -g pnpm
+
+COPY --from=deps /app/.pnpm-store ./.pnpm-store
+COPY pnpm-lock.yaml ./
+COPY . .
+
+RUN pnpm install --offline
+
+# Generate Prisma Client
+RUN pnpm exec turbo run generate
+
+# Build with turbo
+RUN pnpm exec turbo run build --filter=api
+
+# Stage 3: Production
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+RUN npm install -g pnpm
+
+ENV NODE_ENV=production
+
+COPY --from=builder /app/package.json /app/pnpm-workspace.yaml /app/pnpm-lock.yaml ./
+COPY --from=builder /app/apps/api ./apps/api
+COPY --from=builder /app/packages ./packages
+
+RUN pnpm install --offline --prod
+
+EXPOSE 3001
+
+CMD ["pnpm", "start", "-F", "api"]

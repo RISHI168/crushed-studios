@@ -1,0 +1,34 @@
+name: audio-music
+agent_id: audio-music
+base_model: musicgen-large
+
+training:
+  type: lora
+  rank: 24
+  alpha: 48
+  learning_rate: 1.5e-4
+  epochs: 4
+  batch_size: 2
+  audio_duration: 30
+
+data:
+  dataset_id: audio_music_preferences
+  min_pair_count: 100
+  quality_threshold: 0.78
+  sampling_strategy: balanced
+  genre_diversity: true
+
+evaluation:
+  metrics:
+    - musicality_score
+    - coherence_score
+    - style_adherence
+    - user_preference
+  benchmark_dataset: audio_music_eval
+  threshold_for_promotion: 0.80
+
+schedule:
+  trigger: data_threshold
+  min_pairs_for_training: 150
+  max_training_frequency: weekly
+  auto_promote: true

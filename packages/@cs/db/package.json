@@ -1,0 +1,47 @@
+{
+  "name": "@cs/db",
+  "version": "0.6.0",
+  "description": "Database schema, migrations, and client setup",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client.js",
+      "types": "./dist/client.d.ts"
+    },
+    "./schema": {
+      "import": "./dist/schema/index.js",
+      "types": "./dist/schema/index.d.ts"
+    }
+  },
+  "files": ["dist", "src", "migrations"],
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src/",
+    "test": "vitest",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@cs/constants": "workspace:*",
+    "@cs/types": "workspace:*",
+    "drizzle-orm": "^0.31.0",
+    "neo4j-driver": "^5.20.0",
+    "postgres": "^3.4.0",
+    "sql.js": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "drizzle-kit": "^0.21.0",
+    "typescript": "^5.5.0",
+    "vitest": "^1.0.0"
+  }
+}

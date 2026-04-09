@@ -1,0 +1,34 @@
+name: cinematography
+agent_id: cinematography
+base_model: claude-3-sonnet
+
+training:
+  type: lora
+  rank: 40
+  alpha: 80
+  learning_rate: 2.0e-4
+  epochs: 3
+  batch_size: 4
+  max_tokens: 2048
+
+data:
+  dataset_id: cinematography_preferences
+  min_pair_count: 90
+  quality_threshold: 0.76
+  sampling_strategy: balanced
+  technical_accuracy: true
+
+evaluation:
+  metrics:
+    - cinematic_quality_score
+    - technical_accuracy
+    - creative_adherence
+    - user_preference
+  benchmark_dataset: cinematography_eval
+  threshold_for_promotion: 0.81
+
+schedule:
+  trigger: data_threshold
+  min_pairs_for_training: 140
+  max_training_frequency: weekly
+  auto_promote: true

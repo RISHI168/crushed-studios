@@ -1,0 +1,32 @@
+name: audio-tts
+agent_id: audio-tts
+base_model: elevenlabs-v2
+
+training:
+  type: voice_cloning
+  num_samples_required: 5
+  sample_duration_min: 30
+  learning_rate: 5.0e-5
+  epochs: 2
+  batch_size: 1
+
+data:
+  dataset_id: audio_tts_samples
+  min_samples: 50
+  quality_threshold: 0.85
+  voice_diversity: true
+
+evaluation:
+  metrics:
+    - speaker_similarity
+    - naturalness_score
+    - intelligibility
+    - user_satisfaction
+  benchmark_dataset: audio_tts_eval
+  threshold_for_promotion: 0.85
+
+schedule:
+  trigger: data_threshold
+  min_samples_for_training: 75
+  max_training_frequency: monthly
+  auto_promote: true

@@ -1,0 +1,34 @@
+# GPU-enabled worker with NVIDIA CUDA
+FROM nvidia/cuda:12.3.1-cudnn8-runtime-ubuntu22.04
+
+WORKDIR /app
+
+# Install Node.js
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    gnupg \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends \
+    nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install pnpm
+RUN npm install -g pnpm
+
+ENV NODE_ENV=production
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+COPY pnpm-lock.yaml ./
+RUN pnpm fetch
+
+COPY . .
+
+RUN pnpm install --offline --prod
+
+# Build dependencies
+RUN pnpm exec turbo run build --filter=worker
+
+EXPOSE 3001
+
+CMD ["pnpm", "start", "-F", "worker"]
