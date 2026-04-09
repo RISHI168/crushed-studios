@@ -34,7 +34,7 @@ export async function startLoRATraining(
     modelVersionId: 'model_v1',
     datasetId: config.datasetId,
     status: 'pending',
-    config,
+    config: config as unknown as Record<string, unknown>,
   };
 }
 

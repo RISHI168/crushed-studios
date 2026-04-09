@@ -3,10 +3,11 @@
  */
 
 import { pgTable, text, uuid, timestamp, integer, jsonb } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 
 export const characters = pgTable('crushed_characters', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   projectId: uuid('project_id').notNull(),
   name: text('name').notNull(),
   nickname: text('nickname'),
@@ -28,7 +29,7 @@ export const characters = pgTable('crushed_characters', {
 });
 
 export const characterStates = pgTable('crushed_character_states', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   sceneId: uuid('scene_id').notNull(),
   characterId: uuid('character_id').notNull(),
   emotionalState: text('emotional_state'),

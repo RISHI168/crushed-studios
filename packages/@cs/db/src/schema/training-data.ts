@@ -3,10 +3,11 @@
  */
 
 import { pgTable, text, uuid, timestamp, integer, jsonb } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 
 export const preferencePairs = pgTable('crushed_preference_pairs', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   promptId: uuid('prompt_id').notNull(),
   preferredOutputId: uuid('preferred_output_id').notNull(),
   rejectedOutputId: uuid('rejected_output_id').notNull(),
@@ -16,7 +17,7 @@ export const preferencePairs = pgTable('crushed_preference_pairs', {
 });
 
 export const trainingDatasets = pgTable('crushed_training_datasets', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   name: text('name').notNull(),
   description: text('description'),
   agentId: text('agent_id').notNull(),
@@ -27,7 +28,7 @@ export const trainingDatasets = pgTable('crushed_training_datasets', {
 });
 
 export const trainingRuns = pgTable('crushed_training_runs', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   modelVersionId: uuid('model_version_id').notNull(),
   datasetId: uuid('dataset_id').notNull(),
   status: text('status').default('pending'),

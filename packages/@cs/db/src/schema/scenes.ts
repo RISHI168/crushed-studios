@@ -3,10 +3,11 @@
  */
 
 import { pgTable, text, uuid, timestamp, integer, boolean, jsonb } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 
 export const scenes = pgTable('crushed_scenes', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   projectId: uuid('project_id').notNull(),
   title: text('title').notNull(),
   sceneNumber: integer('scene_number').notNull(),
@@ -25,7 +26,7 @@ export const scenes = pgTable('crushed_scenes', {
 });
 
 export const dialogueBlocks = pgTable('crushed_dialogue_blocks', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   sceneId: uuid('scene_id').notNull(),
   characterId: uuid('character_id'),
   character: text('character').notNull(),
@@ -36,7 +37,7 @@ export const dialogueBlocks = pgTable('crushed_dialogue_blocks', {
 });
 
 export const sceneComments = pgTable('crushed_scene_comments', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   sceneId: uuid('scene_id').notNull(),
   userId: uuid('user_id').notNull(),
   text: text('text').notNull(),

@@ -1,7 +1,25 @@
 // NextAuth API route for authentication
 import NextAuth from 'next-auth'
-import type { NextAuthOptions } from 'next-auth'
+import type { NextAuthOptions, Session } from 'next-auth'
+import type { JWT } from 'next-auth/jwt'
 import CredentialsProvider from 'next-auth/providers/credentials'
+
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string
+      email?: string | null
+      name?: string | null
+      image?: string | null
+    }
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    id?: string
+  }
+}
 
 const authOptions: NextAuthOptions = {
   providers: [

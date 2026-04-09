@@ -33,6 +33,7 @@
   "dependencies": {
     "@cs/constants": "workspace:*",
     "@cs/types": "workspace:*",
+    "@paralleldrive/cuid2": "^2.2.2",
     "drizzle-orm": "^0.31.0",
     "neo4j-driver": "^5.20.0",
     "postgres": "^3.4.0",

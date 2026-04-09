@@ -64,7 +64,7 @@ export { exportToJSONL, exportToJSON, exportToCSV, exportDataset, type ExportFor
 // Evaluation
 export { runBenchmark, runBenchmarkSuite, compareModels, type BenchmarkResult } from './evaluation/benchmark-runner';
 export { scoreOutput, batchScoreOutputs, calculateAverageQuality, type QualityScore } from './evaluation/quality-scorer';
-export { scoreWithRewardModel, compareOutputs, rankOutputs } from './evaluation/reward-scorer';
+export { compareOutputs, rankOutputs } from './evaluation/reward-scorer';
 export { checkRegression, approveRegression, analyzeRegressions, type RegressionReport } from './evaluation/regression-checker';
 export { runABTest, calculateSignificance, ABTestTracker, type ABTestResult } from './evaluation/ab-comparator';
 export {

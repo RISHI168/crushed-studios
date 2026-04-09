@@ -32,7 +32,7 @@ export async function collectPreference(
     promptId: 'prompt_id',
     preferredOutputId: feedbackA.approved ? feedbackA.outputId : feedbackB.outputId,
     rejectedOutputId: feedbackA.approved ? feedbackB.outputId : feedbackA.outputId,
-    feedback: feedbackA.feedback || feedbackB.feedback,
+    feedback: feedbackA.feedback || feedbackB.feedback || '',
     createdAt: new Date().toISOString(),
   };
 
