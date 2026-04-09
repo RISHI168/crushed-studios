@@ -1,0 +1,26 @@
+# CODEOWNERS for automatic PR review assignment
+
+# Frontend
+/apps/web/                  @frontend-team
+/packages/@cs/tokens        @frontend-team
+/packages/@cs/utils         @frontend-team
+
+# Backend
+/apps/api/                  @backend-team
+/apps/worker/               @backend-team
+/packages/@cs/db            @backend-team
+/packages/@cs/ai            @ml-team
+
+# Infrastructure
+/infra/                     @devops-team
+/.github/workflows/         @devops-team
+
+# Documentation
+/docs/                      @tech-lead
+/.claude/                   @tech-lead
+
+# Config and root
+turbo.json                  @tech-lead
+tsconfig.base.json          @tech-lead
+pnpm-workspace.yaml         @tech-lead
+.eslintrc.js                @frontend-team

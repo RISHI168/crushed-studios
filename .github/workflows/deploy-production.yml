@@ -1,0 +1,97 @@
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy'
+        required: true
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.version }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+
+      - name: Push images to ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+          docker build -f infra/docker/Dockerfile.web -t ${{ secrets.ECR_REGISTRY }}/crushed-web:prod .
+          docker push ${{ secrets.ECR_REGISTRY }}/crushed-web:prod
+
+      - name: Deploy to ECS
+        run: |
+          aws ecs update-service \
+            --cluster crushed-studios-production \
+            --service crushed-studios-web \
+            --force-new-deployment
+
+      - name: Run migrations
+        run: |
+          aws ecs run-task \
+            --cluster crushed-studios-production \
+            --task-definition crushed-migrate:1 \
+            --launch-type FARGATE \
+            --network-configuration "awsvpcConfiguration={subnets=[subnet-xxx],assignPublicIp=DISABLED}"
+
+      - name: Verify deployment
+        run: |
+          sleep 120
+          curl -f https://crushed.studio/health || exit 1
+
+      - name: Create deployment record
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.ref,
+              environment: 'production',
+              auto_merge: false,
+              required_contexts: []
+            })
+
+      - name: Notify Slack
+        if: success()
+        run: |
+          echo "Production deployment of ${{ github.event.inputs.version }} successful"
+
+      - name: Incident response
+        if: failure()
+        run: |
+          echo "Deployment failed! Initiating rollback..."
+          # Rollback steps here

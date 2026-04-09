@@ -6,7 +6,11 @@ node_modules/
 # Build output
 dist/
 build/
+.next/
 *.tsbuildinfo
+
+# Turbo
+.turbo/
 
 # Environment
 .env
@@ -14,6 +18,7 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
+.env*.local
 
 # IDE
 .vscode/

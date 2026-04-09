@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "baseUrl": ".",
+    "paths": {
+      "@cs/tokens": ["packages/@cs/tokens/src/index.ts"],
+      "@cs/tokens/*": ["packages/@cs/tokens/src/*"],
+      "@cs/constants": ["packages/@cs/constants/src/index.ts"],
+      "@cs/constants/*": ["packages/@cs/constants/src/*"],
+      "@cs/types": ["packages/@cs/types/src/index.ts"],
+      "@cs/types/*": ["packages/@cs/types/src/*"],
+      "@cs/utils": ["packages/@cs/utils/src/index.ts"],
+      "@cs/utils/*": ["packages/@cs/utils/src/*"],
+      "@cs/db": ["packages/@cs/db/src/index.ts"],
+      "@cs/db/*": ["packages/@cs/db/src/*"],
+      "@cs/ai": ["packages/@cs/ai/src/index.ts"],
+      "@cs/ai/*": ["packages/@cs/ai/src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist", ".turbo"]
+}

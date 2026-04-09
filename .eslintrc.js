@@ -1,0 +1,40 @@
+export default [
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser: "@typescript-eslint/parser",
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true
+        }
+      },
+      globals: {
+        console: "readonly",
+        process: "readonly"
+      }
+    },
+    plugins: {
+      "@typescript-eslint": require("@typescript-eslint/eslint-plugin")
+    },
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/explicit-function-return-types": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }]
+    }
+  },
+  {
+    files: ["**/*.js"],
+    languageOptions: {
+      sourceType: "module",
+      globals: {
+        console: "readonly",
+        process: "readonly"
+      }
+    }
+  }
+];

@@ -1,0 +1,26 @@
+{
+  "projectName": "Crushed Studios",
+  "description": "AI-powered video generation platform",
+  "version": "0.1.0",
+  "codebaseStructure": "turborepo-monorepo",
+  "language": "TypeScript",
+  "framework": "Next.js + Fastify",
+  "hooks": {
+    "pre-commit": ".claude/hooks/pre-commit.sh",
+    "post-build": ".claude/hooks/post-build.sh",
+    "pre-push": ".claude/hooks/pre-push.sh"
+  },
+  "linting": {
+    "enabled": true,
+    "tool": "eslint",
+    "configPath": ".eslintrc.js"
+  },
+  "testing": {
+    "enabled": true,
+    "framework": "vitest"
+  },
+  "documentation": {
+    "location": "docs/",
+    "adr": "docs/architecture/decisions/"
+  }
+}

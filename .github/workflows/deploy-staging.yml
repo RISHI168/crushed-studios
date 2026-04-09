@@ -1,0 +1,72 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [develop]
+
+concurrency:
+  group: staging-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Push images to ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+          docker build -f infra/docker/Dockerfile.web -t ${{ secrets.ECR_REGISTRY }}/crushed-web:staging .
+          docker push ${{ secrets.ECR_REGISTRY }}/crushed-web:staging
+
+      - name: Deploy to ECS
+        run: |
+          aws ecs update-service \
+            --cluster crushed-studios-staging \
+            --service crushed-studios-web \
+            --force-new-deployment
+
+      - name: Run migrations
+        run: |
+          aws ecs run-task \
+            --cluster crushed-studios-staging \
+            --task-definition crushed-migrate:1 \
+            --launch-type FARGATE \
+            --network-configuration "awsvpcConfiguration={subnets=[subnet-xxx],assignPublicIp=DISABLED}"
+
+      - name: Verify deployment
+        run: |
+          sleep 60
+          curl -f https://staging.crushed.studio/health || exit 1
+
+      - name: Notify Slack
+        if: success()
+        run: |
+          echo "Staging deployment successful"

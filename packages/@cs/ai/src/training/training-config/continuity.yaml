@@ -1,0 +1,34 @@
+name: continuity
+agent_id: continuity
+base_model: claude-3-opus
+
+training:
+  type: lora
+  rank: 48
+  alpha: 96
+  learning_rate: 1.5e-4
+  epochs: 3
+  batch_size: 4
+  max_tokens: 8192
+
+data:
+  dataset_id: continuity_preferences
+  min_pair_count: 80
+  quality_threshold: 0.82
+  sampling_strategy: balanced
+  edge_cases: true
+
+evaluation:
+  metrics:
+    - consistency_score
+    - identity_anchor_accuracy
+    - cross_scene_validity
+    - user_satisfaction
+  benchmark_dataset: continuity_eval
+  threshold_for_promotion: 0.83
+
+schedule:
+  trigger: data_threshold
+  min_pairs_for_training: 120
+  max_training_frequency: weekly
+  auto_promote: true
