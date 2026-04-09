@@ -21,8 +21,7 @@
     "lint": "turbo lint",
     "test": "turbo test",
     "type-check": "turbo type-check",
-    "clean": "turbo clean && rm -rf node_modules",
-    "install": "pnpm install"
+    "clean": "turbo clean && rm -rf node_modules"
   },
   "devDependencies": {
     "@types/node": "^20.12.0",
@@ -31,7 +30,7 @@
     "eslint": "^9.0.0",
     "prettier": "^3.3.0",
     "turbo": "^2.0.0",
-    "typescript": "^5.5.0",
+    "typescript": "^5.5.2",
     "vitest": "^1.0.0"
   },
   "engines": {
