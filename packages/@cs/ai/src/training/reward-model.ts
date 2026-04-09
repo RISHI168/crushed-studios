@@ -62,5 +62,6 @@ export async function evaluateRewardModel(
     modelVersionId: modelId,
     benchmark: 'reward_model_validation',
     score: 0,
+    createdAt: new Date().toISOString(),
   };
 }

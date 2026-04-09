@@ -33,6 +33,7 @@ export async function storeDataset(
     pairsCount: pairs.length,
     quality: 'raw',
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 }
 
@@ -87,5 +88,6 @@ export async function mergeDatasets(
     pairsCount: 0,
     quality: 'raw',
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 }

@@ -3,14 +3,15 @@
  * Handles character state graph and relationship queries
  */
 
+import type { Driver } from 'neo4j-driver';
 import neo4j from 'neo4j-driver';
 
-let driver: neo4j.Driver | null = null;
+let driver: Driver | null = null;
 
 /**
  * Initialize Neo4j driver connection
  */
-export function initializeNeo4j(): neo4j.Driver {
+export function initializeNeo4j(): Driver {
   if (driver) return driver;
 
   const uri = process.env.NEO4J_URI || 'bolt://localhost:7687';
@@ -28,7 +29,7 @@ export function initializeNeo4j(): neo4j.Driver {
 /**
  * Get Neo4j driver instance
  */
-export function getNeo4jDriver(): neo4j.Driver {
+export function getNeo4jDriver(): Driver {
   if (!driver) {
     return initializeNeo4j();
   }
@@ -57,7 +58,7 @@ export async function executeCypher<T = unknown>(
 
   try {
     const result = await session.run(query, params);
-    return result.records.map((record) => record.toObject() as T);
+    return result.records.map((record: any) => record.toObject() as T);
   } finally {
     await session.close();
   }

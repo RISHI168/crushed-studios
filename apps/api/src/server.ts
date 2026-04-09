@@ -4,19 +4,9 @@ import fastifyWebsocket from '@fastify/websocket'
 import fastifyCors from '@fastify/cors'
 import fastifySwagger from '@fastify/swagger'
 import fastifyRateLimit from '@fastify/rate-limit'
-import pino from 'pino'
-
-const logger = pino({
-  transport: {
-    target: 'pino-pretty',
-    options: {
-      colorize: true,
-    },
-  },
-})
 
 const fastify = Fastify({
-  logger,
+  logger: true,
 })
 
 // Register plugins
@@ -26,7 +16,7 @@ await fastify.register(fastifyCors, {
 })
 
 await fastify.register(fastifySwagger, {
-  swagger: {
+  openapi: {
     info: {
       title: 'Crushed Studios API',
       description: 'AI-powered video generation API',
@@ -60,7 +50,7 @@ fastify.get('/health', async (request, reply) => {
 const start = async () => {
   try {
     await fastify.listen({ port: parseInt(process.env.PORT || '3001'), host: '0.0.0.0' })
-    logger.info(`Server running at http://localhost:${process.env.PORT || 3001}`)
+    fastify.log.info(`Server running at http://localhost:${process.env.PORT || 3001}`)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)

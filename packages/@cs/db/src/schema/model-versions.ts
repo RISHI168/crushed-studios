@@ -3,10 +3,11 @@
  */
 
 import { pgTable, text, uuid, timestamp, integer, jsonb, boolean } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 
 export const modelVersions = pgTable('crushed_model_versions', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   agentId: text('agent_id').notNull(),
   version: text('version').notNull(),
   description: text('description'),
@@ -18,7 +19,7 @@ export const modelVersions = pgTable('crushed_model_versions', {
 });
 
 export const modelEvalResults = pgTable('crushed_model_eval_results', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   modelVersionId: uuid('model_version_id').notNull(),
   benchmark: text('benchmark').notNull(),
   score: integer('score'),
@@ -27,7 +28,7 @@ export const modelEvalResults = pgTable('crushed_model_eval_results', {
 });
 
 export const promotionLogs = pgTable('crushed_promotion_logs', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   fromVersionId: uuid('from_version_id'),
   toVersionId: uuid('to_version_id').notNull(),
   agentId: text('agent_id').notNull(),

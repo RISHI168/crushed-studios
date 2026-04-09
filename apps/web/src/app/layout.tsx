@@ -1,26 +1,12 @@
 // Root layout with global fonts and dark theme configuration
 import type { Metadata } from 'next'
-import { Bodoni_Moda, Outfit, Space_Mono } from 'next/font/google'
 import '../styles/globals.css'
 import '../styles/tokens.css'
 
-const bodoniModa = Bodoni_Moda({
-  subsets: ['latin'],
-  variable: '--font-bodoni',
-  weight: ['400', '500', '700'],
-})
-
-const outfit = Outfit({
-  subsets: ['latin'],
-  variable: '--font-outfit',
-  weight: ['400', '500', '600', '700'],
-})
-
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  variable: '--font-space-mono',
-  weight: ['400', '700'],
-})
+// Font placeholders - using system fonts as fallback
+const bodoniModa = { variable: '--font-bodoni' }
+const outfit = { variable: '--font-outfit' }
+const spaceMono = { variable: '--font-space-mono' }
 
 export const metadata: Metadata = {
   title: 'Crushed Studios - AI Video Generation',

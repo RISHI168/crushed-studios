@@ -3,6 +3,7 @@
  */
 
 import { pgTable, text, timestamp, uuid, boolean, pgEnum } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 
 export const roleEnum = pgEnum('role', [
@@ -22,7 +23,7 @@ export const teamPlanEnum = pgEnum('team_plan', [
 ]);
 
 export const users = pgTable('crushed_users', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   avatar: text('avatar'),
@@ -35,7 +36,7 @@ export const users = pgTable('crushed_users', {
 });
 
 export const teams = pgTable('crushed_teams', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   name: text('name').notNull(),
   plan: teamPlanEnum('plan').default('free'),
   creditBalance: text('credit_balance').default('0'),
@@ -45,7 +46,7 @@ export const teams = pgTable('crushed_teams', {
 });
 
 export const sessions = pgTable('crushed_sessions', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   userId: uuid('user_id').notNull(),
   token: text('token').notNull().unique(),
   expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),

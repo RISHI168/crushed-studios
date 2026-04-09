@@ -3,10 +3,11 @@
  */
 
 import { pgTable, text, uuid, timestamp, integer, jsonb, boolean } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 
 export const generations = pgTable('crushed_generations', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   sceneId: uuid('scene_id').notNull(),
   projectId: uuid('project_id').notNull(),
   userId: uuid('user_id').notNull(),
@@ -22,7 +23,7 @@ export const generations = pgTable('crushed_generations', {
 });
 
 export const takes = pgTable('crushed_takes', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   generationId: uuid('generation_id').notNull(),
   takeNumber: integer('take_number'),
   videoUrl: text('video_url'),
@@ -33,7 +34,7 @@ export const takes = pgTable('crushed_takes', {
 });
 
 export const agentLogs = pgTable('crushed_agent_logs', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   generationId: uuid('generation_id').notNull(),
   agentId: text('agent_id').notNull(),
   status: text('status'),
@@ -43,7 +44,7 @@ export const agentLogs = pgTable('crushed_agent_logs', {
 });
 
 export const storyboardPanels = pgTable('crushed_storyboard_panels', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   sceneId: uuid('scene_id').notNull(),
   panelNumber: integer('panel_number'),
   composition: text('composition'),

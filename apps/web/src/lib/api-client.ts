@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 class APIClient {
   private client: AxiosInstance
 
-  constructor(baseURL: string = process.env.NEXT_PUBLIC_API_URL) {
+  constructor(baseURL: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001') {
     this.client = axios.create({
       baseURL,
       headers: {

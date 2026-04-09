@@ -18,6 +18,9 @@
     "lint": "eslint src/",
     "test": "vitest"
   },
+  "dependencies": {
+    "@cs/constants": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^20.12.0",
     "typescript": "^5.5.2",

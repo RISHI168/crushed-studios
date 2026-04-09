@@ -3,10 +3,11 @@
  */
 
 import { pgTable, text, uuid, timestamp, jsonb } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import { createId } from '@paralleldrive/cuid2';
 
 export const auditLogs = pgTable('crushed_audit_logs', {
-  id: uuid('id').primaryKey().defaultValue(() => createId() as string),
+  id: uuid('id').notNull().primaryKey().default(sql`gen_random_uuid()`),
   userId: uuid('user_id').notNull(),
   action: text('action').notNull(),
   resourceType: text('resource_type'),
